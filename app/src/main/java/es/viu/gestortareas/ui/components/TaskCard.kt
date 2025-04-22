@@ -1,5 +1,6 @@
 package es.viu.gestortareas.ui.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,17 +24,22 @@ import androidx.compose.ui.unit.dp
  *
  */
 @Composable
-fun TaskCard(taskTitle: String, taskDescription: String) {
+fun TaskCard(
+    title: String,
+    description: String,
+    onClick: () -> Unit
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
+            .clickable { onClick() }
             .padding(8.dp),
         elevation = CardDefaults.cardElevation(4.dp)
     ) {
         Column (modifier = Modifier.padding(16.dp)){
-            Text(text = taskTitle, style = MaterialTheme.typography.titleMedium)
+            Text(text = title, style = MaterialTheme.typography.titleMedium)
             Spacer(modifier = Modifier.height(4.dp))
-            Text(text = taskDescription, style = MaterialTheme.typography.bodyMedium)
+            Text(text = description, style = MaterialTheme.typography.bodyMedium)
         }
     }
 }

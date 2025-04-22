@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import es.viu.gestortareas.ui.screens.Task
 import es.viu.gestortareas.ui.screens.TaskListScreen
 import es.viu.gestortareas.ui.screens.TaskFormScreen
 import es.viu.gestortareas.ui.screens.TaskDetailScreen
@@ -38,11 +39,17 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
+                    val taskList = listOf(
+                        Task("Estudiar para el examen", "Repasar temas 1-5"),
+                        Task("Comprar leche", "Caduca mañana"),
+                        Task("Terminar práctica Android", "Subir a GitHub antes del domingo")
+                    )
+
                     val navController = rememberNavController()
 
                     NavHost(navController = navController, startDestination = "task_list") {
                         composable("task_list") {
-                            TaskListScreen(navController)
+                            TaskListScreen(navController, taskList)
                         }
                         composable("task_form") {
                             TaskFormScreen(navController)
