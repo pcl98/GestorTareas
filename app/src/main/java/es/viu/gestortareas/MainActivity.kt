@@ -5,43 +5,55 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import es.viu.gestortareas.ui.screens.TaskListScreen
+import es.viu.gestortareas.ui.screens.TaskFormScreen
+import es.viu.gestortareas.ui.screens.TaskDetailScreen
 import es.viu.gestortareas.ui.theme.GestorTareasTheme
 
+/**
+ * MainActivity.kt
+ *
+ * Clase principal de la aplicación Gestor de Tareas.
+ * Es la actividad que inicializa el tema de la aplicación y gestiona la navegación entre pantallas
+ * utilizando Jetpack Compose y Navigation Compose.
+ *
+ * La navegación parte de la pantalla "TaskListScreen" que muestra la lista de tareas.
+ * Desde ahí se puede acceder al formulario de creación/edición de tareas ("TaskFormScreen")
+ * y al detalle de cada tarea ("TaskDetailScreen").
+ *
+ */
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             GestorTareasTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    val navController = rememberNavController()
+
+                    NavHost(navController = navController, startDestination = "task_list") {
+                        composable("task_list") {
+                            TaskListScreen(navController)
+                        }
+                        composable("task_form") {
+                            TaskFormScreen(navController)
+                        }
+                        composable("task_detail/{taskId}") { backStackEntry ->
+                            val taskId = backStackEntry.arguments?.getString("taskId")?.toIntOrNull() ?: 0
+                            TaskDetailScreen(navController, taskId)
+                        }
+                    }
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    GestorTareasTheme {
-        Greeting("Android")
     }
 }
