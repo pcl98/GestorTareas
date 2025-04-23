@@ -40,7 +40,7 @@ fun TaskListScreen(
                     task.title,
                     task.description,
                     onClick = {
-                        navController.navigate("task_detail/$(task.title)")
+                        navController.navigate("task_detail/$(task.id)")
                     }
                 )
             }
