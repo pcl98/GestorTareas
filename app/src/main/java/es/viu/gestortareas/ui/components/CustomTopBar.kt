@@ -37,7 +37,7 @@ fun CustomTopBar(
                 }
             } else {
                 // Espacio reservado para mantener el centrado del título
-                Spacer(modifier = Modifier.width(48.dp))
+                Spacer(modifier = Modifier.width(130.dp))
             }
         }
     )
