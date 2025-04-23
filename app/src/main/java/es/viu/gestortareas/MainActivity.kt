@@ -18,7 +18,6 @@ import es.viu.gestortareas.ui.screens.TaskDetailScreen
 import es.viu.gestortareas.ui.theme.GestorTareasTheme
 
 /**
- * MainActivity.kt
  *
  * Clase principal de la aplicación Gestor de Tareas.
  * Es la actividad que inicializa el tema de la aplicación y gestiona la navegación entre pantallas
