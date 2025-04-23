@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import es.viu.gestortareas.ui.components.CustomTopBar
+import es.viu.gestortareas.ui.components.CustomOutlinedTextField
 
 /**
  *
@@ -36,16 +37,16 @@ fun TaskFormScreen(navController: NavController) {
                 .padding(16.dp)
                 .padding(padding)
         ) {
-            OutlinedTextField(
+            CustomOutlinedTextField(
                 value = title,
                 onValueChange = { title = it },
-                label = { Text("Título") },
+                label = "Título",
                 modifier = Modifier.fillMaxWidth()
             )
-            OutlinedTextField(
+            CustomOutlinedTextField(
                 value = description,
                 onValueChange = { description = it },
-                label = { Text("Descripción") },
+                label = "Descripción",
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 8.dp)
