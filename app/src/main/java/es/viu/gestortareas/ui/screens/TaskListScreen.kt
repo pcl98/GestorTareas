@@ -10,12 +10,13 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import es.viu.gestortareas.ui.components.CustomTopBar
 import es.viu.gestortareas.ui.components.TaskCard
-
-// Simulación de un modelo de datos
-data class Task(val title: String, val description: String)
+import es.viu.gestortareas.viewmodel.TaskListViewModel
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.getValue
 
 /**
  * Pantalla que muestra una lista de tareas utilizando un LazyColumn.
@@ -24,8 +25,11 @@ data class Task(val title: String, val description: String)
 @Composable
 fun TaskListScreen(
     navController: NavController,
-    taskList: List<Task>
+    /*taskList: List<Task>,*/
+    viewModel: TaskListViewModel = viewModel()
 ) {
+    val taskList by viewModel.tasks.observeAsState(initial = emptyList())
+
     Scaffold(
         topBar = { CustomTopBar("Mis Tareas") },
         floatingActionButton = {
@@ -40,7 +44,7 @@ fun TaskListScreen(
                     task.title,
                     task.description,
                     onClick = {
-                        navController.navigate("task_detail/$(task.id)")
+                        navController.navigate("task_detail/${task.id}")
                     }
                 )
             }

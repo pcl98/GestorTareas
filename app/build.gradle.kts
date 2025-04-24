@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace = "es.viu.gestortareas"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "es.viu.gestortareas"
         minSdk = 29
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -54,7 +54,7 @@ dependencies {
     // Core
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
-    implementation("androidx.activity:activity-compose:1.7.2")
+    implementation("androidx.activity:activity-compose:1.10.1")
 
     // Compose UI
     implementation("androidx.compose.ui:ui")
@@ -80,7 +80,7 @@ dependencies {
     // ViewModel y LiveData en Compose
 
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
-    implementation("androidx.compose.runtime:runtime-livedata")
+    implementation("androidx.compose.runtime:runtime-livedata:1.5.4")
 
     // Testing
     testImplementation("junit:junit:4.13.2")

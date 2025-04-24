@@ -5,8 +5,8 @@ import es.viu.gestortareas.model.Task
 object TaskRepository {
 
     private val taskList = mutableListOf<Task>(
-        Task(id = 1, title = "Comprar el pan", description = "Pablo compra el pan ostia", isCompleted = false),
-        Task(id = 2, title = "Fregar el suelo", description = "Pablo friega el suelo ostia", isCompleted = true)
+        Task(id = 1, title = "Comprar el pan", description = "Pablo compra el pan", isCompleted = false),
+        Task(id = 2, title = "Fregar el suelo", description = "Jesús friega el suelo", isCompleted = true)
     )
 
     // Obtener todas las tareas
