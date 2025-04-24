@@ -46,8 +46,9 @@ class MainActivity : ComponentActivity() {
                         composable("task_list") {
                             TaskListScreen(navController, taskListViewModel)
                         }
-                        composable("task_form") {
-                            TaskFormScreen(navController, taskListViewModel)
+                        composable("task_form/{taskId}") { backStackEntry ->
+                            val taskId = backStackEntry.arguments?.getString("taskId")?.toIntOrNull() ?: -1
+                            TaskFormScreen(navController, taskListViewModel, taskId)
                         }
                         composable("task_detail/{taskId}") { backStackEntry ->
                             val taskId = backStackEntry.arguments?.getString("taskId")?.toIntOrNull() ?: 0

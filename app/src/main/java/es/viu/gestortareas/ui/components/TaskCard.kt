@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 fun TaskCard(
     title: String,
     description: String,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Card(
         modifier = Modifier

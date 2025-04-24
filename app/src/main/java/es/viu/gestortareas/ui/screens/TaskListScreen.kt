@@ -33,7 +33,7 @@ fun TaskListScreen(
     Scaffold(
         topBar = { CustomTopBar("Mis Tareas") },
         floatingActionButton = {
-            FloatingActionButton(onClick = { navController.navigate("task_form")}) {
+            FloatingActionButton(onClick = { navController.navigate("task_form/-1")}) {
                 Icon(Icons.Default.Add, "Añadir Tarea")
             }
         }

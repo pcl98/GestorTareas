@@ -8,6 +8,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -28,9 +29,15 @@ import es.viu.gestortareas.viewmodel.TaskListViewModel
 @Composable
 fun TaskFormScreen(
     navController: NavController,
-    viewModel: TaskListViewModel = viewModel()) {
-    var title by remember { mutableStateOf("") }
-    var description by remember { mutableStateOf("") }
+    viewModel: TaskListViewModel = viewModel(),
+    taskId: Int)
+{
+    // Si taskId es -1, significa que estamos creando una nueva tarea
+    val existingTask = viewModel.tasks.observeAsState().value?.find { it.id == taskId }
+
+    // Si estamos creando una nueva tarea, inicializamos los valores en vacío
+    var title by remember { mutableStateOf(existingTask?.title ?: "") }
+    var description by remember { mutableStateOf(existingTask?.description ?: "") }
 
     Scaffold(
         topBar = { CustomTopBar("Nueva Tarea") }
@@ -58,17 +65,23 @@ fun TaskFormScreen(
             Button(
                 onClick = {
                     if (title.isNotBlank() && description.isNotBlank()) {
-                        val id = viewModel.getLastTaskId() + 1
-                        val task = Task(id, title, description)
-                        viewModel.addTask(task)  // Añadir la tarea
-                        navController.popBackStack()  // Volver a la lista de tareas
+                        if (taskId == -1) {
+                            val id = viewModel.getLastTaskId() + 1
+                            val task = Task(id, title, description)
+                            viewModel.addTask(task)  // Añadir la tarea
+                        }
+                        else {
+                            viewModel.editTask(taskId, title, description, false)
+                        }
+
+                        navController.popBackStack()  // Volver a la pantalla anterior
                     }
                 },
                 modifier = Modifier
                     .padding(top = 16.dp)
                     .fillMaxWidth()
             ) {
-                Text("Guardar")
+                Text(if (taskId != -1) "Actualizar" else "Guardar")
             }
         }
     }
