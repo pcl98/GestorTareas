@@ -29,9 +29,11 @@ import es.viu.gestortareas.ui.theme.GestorTareasTheme
  *
  */
 class MainActivity : ComponentActivity() {
+
+    private val taskListViewModel: TaskListViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
             GestorTareasTheme {
                 Surface(
