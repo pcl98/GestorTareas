@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import es.viu.gestortareas.data.TaskRepository
 import es.viu.gestortareas.model.Task
-import android.util.Log
 
 class TaskListViewModel : ViewModel() {
 
@@ -40,6 +39,12 @@ class TaskListViewModel : ViewModel() {
         return TaskRepository.getTasks().filter { it.isCompleted }
 
     }
+
+    fun getLastTaskId(): Int {
+        return tasks.value?.maxOfOrNull { it.id } ?: 0
+    }
+
+
     fun editTask(taskId: Int, title: String, description: String, isCompleted: Boolean? = null) {
         val task = TaskRepository.getTasks().find { it.id == taskId }
         task?.let {

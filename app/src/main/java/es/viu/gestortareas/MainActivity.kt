@@ -3,7 +3,7 @@ package es.viu.gestortareas
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -11,11 +11,11 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import es.viu.gestortareas.ui.screens.Task
 import es.viu.gestortareas.ui.screens.TaskListScreen
 import es.viu.gestortareas.ui.screens.TaskFormScreen
 import es.viu.gestortareas.ui.screens.TaskDetailScreen
 import es.viu.gestortareas.ui.theme.GestorTareasTheme
+import es.viu.gestortareas.viewmodel.TaskListViewModel
 
 /**
  *
@@ -40,24 +40,18 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    val taskList = listOf(
-                        Task("Estudiar para el examen", "Repasar temas 1-5"),
-                        Task("Comprar leche", "Caduca mañana"),
-                        Task("Terminar práctica Android", "Subir a GitHub antes del domingo")
-                    )
-
                     val navController = rememberNavController()
 
                     NavHost(navController = navController, startDestination = "task_list") {
                         composable("task_list") {
-                            TaskListScreen(navController, taskList)
+                            TaskListScreen(navController, taskListViewModel)
                         }
                         composable("task_form") {
-                            TaskFormScreen(navController)
+                            TaskFormScreen(navController, taskListViewModel)
                         }
                         composable("task_detail/{taskId}") { backStackEntry ->
                             val taskId = backStackEntry.arguments?.getString("taskId")?.toIntOrNull() ?: 0
-                            TaskDetailScreen(navController, taskId)
+                            TaskDetailScreen(navController, taskId, taskListViewModel)
                         }
                     }
                 }
