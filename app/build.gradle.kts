@@ -62,7 +62,6 @@ dependencies {
     implementation("androidx.compose.material3:material3") // viene del BOM
 
     // ViewModel y LiveData en Compose
-
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
     implementation("androidx.compose.runtime:runtime-livedata")
 
@@ -74,6 +73,8 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
     testImplementation("androidx.arch.core:core-testing:2.2.0")
+
+
 
 }
 

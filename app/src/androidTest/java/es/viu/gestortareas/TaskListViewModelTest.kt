@@ -9,7 +9,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-class TaskListViewModelTest {
+class  TaskListViewModelTest {
 
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
@@ -87,8 +87,6 @@ class TaskListViewModelTest {
         assertEquals("Nueva descripción", tareaEditada?.description)
         assertTrue(tareaEditada?.isCompleted == true)
     }
-
-
 
 }
 
