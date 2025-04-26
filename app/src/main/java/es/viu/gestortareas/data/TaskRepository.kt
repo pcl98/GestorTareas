@@ -6,7 +6,10 @@ object TaskRepository {
 
     private val taskList = mutableListOf<Task>(
         Task(id = 1, title = "Comprar el pan", description = "Pablo compra el pan", isCompleted = false),
-        Task(id = 2, title = "Fregar el suelo", description = "Jesús friega el suelo", isCompleted = true)
+        Task(id = 2, title = "Fregar el suelo", description = "Jesús friega el suelo", isCompleted = true),
+        Task(id = 3, title = "Sacar al perro", description = "Jesús saca a pasear a Rocky", isCompleted = false),
+        Task(id = 4, title = "Hacer la compra", description = "Comprar frutas y verduras", isCompleted = false),
+        Task(id = 5, title = "Estudiar Kotlin", description = "Pablo estudia programación", isCompleted = true)
     )
 
     // Obtener todas las tareas
