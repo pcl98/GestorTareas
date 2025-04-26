@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">GestorTareas</string>
+    <string name="task_list_title">Mis Tareas</string>
+    <string name="new_task">Nueva Tarea</string>
+    <string name="save">Guardar</string>
+    <string name="task_detail_title">Detalle Tarea</string>
 </resources>

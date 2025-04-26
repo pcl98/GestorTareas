@@ -4,17 +4,30 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import androidx.compose.runtime.livedata.observeAsState
-import es.viu.gestortareas.model.Task
-import es.viu.gestortareas.viewmodel.TaskListViewModel
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import es.viu.gestortareas.ui.screens.TaskListScreen
+import es.viu.gestortareas.ui.screens.TaskFormScreen
+import es.viu.gestortareas.ui.screens.TaskDetailScreen
 import es.viu.gestortareas.ui.theme.GestorTareasTheme
+import es.viu.gestortareas.viewmodel.TaskListViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
+/**
+ *
+ * Clase principal de la aplicación Gestor de Tareas.
+ * Es la actividad que inicializa el tema de la aplicación y gestiona la navegación entre pantallas
+ * utilizando Jetpack Compose y Navigation Compose.
+ *
+ * La navegación parte de la pantalla "TaskListScreen" que muestra la lista de tareas.
+ * Desde ahí se puede acceder al formulario de creación/edición de tareas ("TaskFormScreen")
+ * y al detalle de cada tarea ("TaskDetailScreen").
+ *
+ */
 class MainActivity : ComponentActivity() {
 
     private val taskListViewModel: TaskListViewModel by viewModels()
@@ -23,89 +36,27 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             GestorTareasTheme {
-                Scaffold(
+                Surface(
                     modifier = Modifier.fillMaxSize(),
-                    topBar = {
-                        TopAppBar(
-                            title = { Text("Gestor de Tareas") }
-                        )
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    val navController = rememberNavController()
+
+                    NavHost(navController = navController, startDestination = "task_list") {
+                        composable("task_list") {
+                            TaskListScreen(navController, taskListViewModel)
+                        }
+                        composable("task_form/{taskId}") { backStackEntry ->
+                            val taskId = backStackEntry.arguments?.getString("taskId")?.toIntOrNull() ?: -1
+                            TaskFormScreen(navController, taskListViewModel, taskId)
+                        }
+                        composable("task_detail/{taskId}") { backStackEntry ->
+                            val taskId = backStackEntry.arguments?.getString("taskId")?.toIntOrNull() ?: 0
+                            TaskDetailScreen(navController, taskId, taskListViewModel)
+                        }
                     }
-                ) { innerPadding ->
-                    TaskListScreen(
-                        viewModel = taskListViewModel,
-                        modifier = Modifier.padding(innerPadding)
-                    )
                 }
             }
         }
     }
 }
-
-@Composable
-fun TaskListScreen(viewModel: TaskListViewModel, modifier: Modifier = Modifier) {
-    val tasks by viewModel.tasks.observeAsState(emptyList())
-
-    Column(modifier = modifier.padding(16.dp)) {
-        Text(text = "Lista de Tareas:", style = MaterialTheme.typography.titleLarge)
-        Spacer(modifier = Modifier.height(16.dp))
-
-        tasks.forEach { task ->
-            TaskCard(
-                title = task.title,
-                description = task.description,
-                isCompleted = task.isCompleted,
-                onToggle = { viewModel.toggleTaskStatus(task.id) },
-                onDelete = { viewModel.deleteTask(task.id) }
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-        }
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        Button(onClick = {
-            val tarea = Task(1, "Leer", "Leer 20 páginas")
-            viewModel.addTask(tarea)
-        }) {
-            Text("Añadir tarea")
-        }
-    }
-}
-
-@Composable
-fun TaskCard(
-    title: String,
-    description: String,
-    isCompleted: Boolean,
-    onToggle: () -> Unit,
-    onDelete: () -> Unit
-) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 4.dp),
-        elevation = CardDefaults.cardElevation(4.dp)
-    ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = title, style = MaterialTheme.typography.titleMedium)
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(text = description, style = MaterialTheme.typography.bodyMedium)
-            Spacer(modifier = Modifier.height(8.dp))
-            Row(horizontalArrangement = Arrangement.SpaceBetween) {
-                Button(onClick = onToggle) {
-                    Text(if (isCompleted) "Marcar como pendiente" else "Marcar como hecha")
-                }
-                Spacer(modifier = Modifier.width(8.dp))
-                Button(onClick = onDelete) {
-                    Text("Eliminar")
-                }
-            }
-        }
-    }
-}
-
-
-
-
-
-
-
